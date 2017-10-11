@@ -19,9 +19,9 @@ import org.junit.Test;
  * 1、通道(Channel) : 负责链接
  *     java.nio.channels.Channel 接口
  *         |- SelectableChannel 抽象类
- *             |- SocketChannel
- *             |- ServerSocketChannel
- *             |- DatagramChannel
+ *             |- SocketChannel        连接到TCP网络套接字的通道。
+ *             |- ServerSocketChannel  可以监听新进来的TCP连接的通道
+ *             |- DatagramChannel      能收发UDP包的通道
  *             |- Pipe.SinkChannel
  *             |- Pipe.SourceChannel
  * 2、缓冲区(Buffer) : 负责数据的存取
