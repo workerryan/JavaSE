@@ -5,6 +5,7 @@ package com.dragon.javase8.lambda.demo;
  * @author wanglei
  *
  */
+@FunctionalInterface
 public interface IEmployeeFilter<T> {
 	public boolean filterEmployee(T t);
 }
