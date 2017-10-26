@@ -2,12 +2,11 @@ package com.dragon.javase8.streamapi;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
+import java.util.DoubleSummaryStatistics;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -26,7 +25,7 @@ import com.dragon.javase8.lambda.demo.Employee.Status;
  * 3、终止操作
  *     3.1、查找与匹配 见test9()
  *     3.2、规约(reduce)  test10()
- *     3.3、收集
+ *     3.3、收集(collect)  见test11() ~ test15()
  * @author wanglei
  *
  */
@@ -341,15 +340,90 @@ public class StreamApi1 {
 		collect.forEach(System.out :: println);
 	}
 	
+	//计算
+	@Test
+	public void test12() {
+		 Long count = employees.parallelStream()
+		 	.collect(Collectors.counting());//统计总数
+		 System.out.println("总数:"+count);
+		 
+		 Double avg = employees.parallelStream()
+		 	.collect(Collectors.averagingDouble(Employee :: getSalary));
+		System.out.println("工资平均值:" + avg);
+		
+		Double sum = employees.stream()
+			.collect(Collectors.summingDouble(Employee :: getSalary));
+		System.out.println("工资总和：" + sum);
+		
+		Optional<Employee> max = employees.stream()
+			.collect(Collectors.maxBy((e1, e2) -> Double.compare(e1.getSalary(), e2.getSalary())));
+		System.out.println("最高工资: " + max.get());
+		
+		Optional<Double> min = employees.stream()
+			.map(Employee :: getSalary)
+			.collect(Collectors.minBy(Double :: compare));
+		System.out.println("最低工资: " + min.get());
+		
+		//收集的另一种写法
+		DoubleSummaryStatistics dss = employees.stream()
+			.collect(Collectors.summarizingDouble(Employee :: getSalary));	//收集
+		System.out.println(dss.getAverage());	//取平均值
+		System.out.println(dss.getCount());		//总数
+		System.out.println(dss.getMax());		//最大值
+		System.out.println(dss.getMin());		//最小值
+		System.out.println(dss.getSum());		//总和
+	}
+	
+	//分组
+	@Test
+	public void test13() {
+//		安装状态进行分组
+//		employees.stream()
+//			.collect(Collectors.groupingBy(e -> {
+//				return e.getStatus();
+//			}));
+//		employees.stream()
+//			.collect(Collectors.groupingBy(e ->  e.getStatus()));
+		//上面的2个方法等价下面的
+		Map<Status, List<Employee>> collect = employees2.stream()
+			.collect(Collectors.groupingBy(Employee :: getStatus));
+		System.out.println(collect);
+		
+		//多级分组
+		Map<Status, Map<String, List<Employee>>> collect2 = employees2.stream()
+			.collect(Collectors.groupingBy(Employee :: getStatus, 	//按照状态分组
+					Collectors.groupingBy(  e -> {					//按照年龄进行分组
+						Employee emp = (Employee)e;
+						if(e.getAge() <= 35) {
+							return "青年";
+						}else if(emp.getAge() <= 50) {
+							return "中年";
+						}else {
+							return "老年";
+						}
+					})));
+		System.out.println(collect2);
+		
+	}
 	
 	
 	
+	//分区，分区是指分为true和false。满足条件是true，不满足条件是false
+	@Test
+	public void test14() {
+		Map<Boolean, List<Employee>> collect = employees2.stream()
+			.collect(Collectors.partitioningBy(e -> e.getSalary() > 6666));
+		System.out.println(collect);
+	}
 	
-	
-	
-	
-	
-	
+	//链接
+	@Test
+	public void test15() {
+		String str = employees2.stream()
+			.map(Employee :: getName)
+			.collect(Collectors.joining(",", "-->", "<--"));	//以逗号链接名字
+		System.out.println(str); //打印结果为  -->张三,李四,王五,赵六,田七,陈八,沈九<--
+	}
 	
 	
 	
