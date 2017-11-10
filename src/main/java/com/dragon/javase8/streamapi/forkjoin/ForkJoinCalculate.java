@@ -17,14 +17,12 @@ public class ForkJoinCalculate extends RecursiveTask<Long>{
 
 	private long start;	//计算起始值
 	private long end;   //计算结束值
-	private static final long THRESHOLD = 10000; //拆分的临界值
-	
+	private static final long THRESHOLD = 10000; //拆分的临界值，作为最小拆分单元
 	
 	public ForkJoinCalculate(long start, long end) {
 		this.start = start;
 		this.end = end;
 	}
-
 
 	@Override
 	protected Long compute() {
@@ -46,8 +44,4 @@ public class ForkJoinCalculate extends RecursiveTask<Long>{
 			return left.join() + right.join();
 		}
 	}
-
-
-
-
 }

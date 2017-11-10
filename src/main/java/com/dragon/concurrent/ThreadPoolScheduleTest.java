@@ -2,11 +2,15 @@ package com.dragon.concurrent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 线程池
@@ -24,60 +28,33 @@ import java.util.concurrent.Future;
  * ScheduledExecutorService newScheduledThreadPool() : 创建固定大小的线程，可以延迟或定时的执行任务。
  * 
  * 要使用线程池，基本的步骤就是:1、创建线程池；2、分配任务；3、关闭线程池
+ * 
+ * 在ThreadPoolTest中，写了关于线程池的相关代码，该类主要是了解线程池的调度
  * @author wanglei
  *
  */
-public class ThreadPoolTest {
+public class ThreadPoolScheduleTest {
 	public static void main(String[] args) throws InterruptedException, ExecutionException {
 		//1、创建5个线程的固定线程池
-		ExecutorService pool = Executors.newFixedThreadPool(5);
+		ScheduledExecutorService pool = Executors.newScheduledThreadPool(5);
 		
-		ThreadPoolDemo tpd = new ThreadPoolDemo();
-		
-		//2、为线程池中的线程分配任务
-		for (int i = 0; i < 5; i++) {
-			pool.submit(tpd);
-		}
-		
-		//3、关闭线程池
-		pool.shutdown();  //安全关闭，等待线程池的所有任务都执行完毕了，在关线程池，不会再接收任务
-//		pool.shutdownNow() //立马关闭
-		
-		System.out.println("-------------------");
-		
-		//接收Callbale
-		ExecutorService pool2 = Executors.newFixedThreadPool(5);
-		List<Future<Integer>> list = new ArrayList<>();
-
+		//启动10个线程
 		for (int i = 0; i < 10; i++) {
-			Future<Integer> future = pool2.submit(new Callable<Integer>() {
-				@Override
-				public Integer call() throws Exception {
-					int sum = 0;
-					for (int j = 0; j < 100; j++) {
-						sum += j;
-					}
-					return sum;
-				}
-			});
-			list.add(future);
+			/**
+			 *  public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit);
+			 *  第一个参数是实现Runnable或者Callback的线程，
+			 *  第二个参数是延迟时间
+			 *  第三个参数是延迟时间的单位
+			 */
+			ScheduledFuture<Integer> result = pool.schedule(() -> {
+				int num = new Random().nextInt(100);
+				System.out.println(Thread.currentThread().getName() + ":" + num);
+				return num;
+			}, 3, TimeUnit.SECONDS);
+			
+			System.out.println(result.get());
 		}
 		
-		pool2.shutdown();
-		
-		for (Future<Integer> future : list) {
-			System.out.println(future.get());
-		}
-	}
-}
-
-class ThreadPoolDemo implements Runnable{
-	private int i = 0;
-	
-	@Override
-	public void run() {
-		while ( i <= 100) {
-			System.out.println(Thread.currentThread().getName() + " : " + ++i);
-		}
+		pool.shutdown();
 	}
 }

@@ -11,7 +11,7 @@ import org.junit.Test;
 public class ForkJoinTest {
 
 	/**
-	 * 使用Fork-Join计算
+	 * 使用Fork-Join计算，Fork-Join需要ForkJoinPool的支持
 	 */
 	@Test
 	public void test1() {
@@ -19,7 +19,7 @@ public class ForkJoinTest {
 		
 		ForkJoinPool pool = new ForkJoinPool();
 		RecursiveTask<Long> task= new ForkJoinCalculate(0, 100000000000L);
-		Long sum = pool.invoke(task);
+		Long sum = pool.invoke(task); //执行汇总
 		System.out.println(sum);
 		
 		Instant end = Instant.now();
@@ -49,7 +49,6 @@ public class ForkJoinTest {
 	 * Stream API 可以声明性地通过 parallel() 与 sequential() 在并行流与顺序流之间进行切换。
 	 */
 	@Test
-	
 	public void test3() {
 		Instant start = Instant.now();
 		

@@ -12,6 +12,8 @@ import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
@@ -108,6 +110,17 @@ public class LocalDateTimeTest {
 		//字符串按照指定格式解析到时间，要从字符串解析到时间，格式必须是有日期和时间，否则会报错
 		LocalDateTime parse = ldt.parse(str2, dft2); 
 		System.out.println(parse);
+		
+		DateTimeFormatter timestempPatter =  DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		String str3 = timestempPatter.format(ldt);
+		
+		System.out.println(str3);
+		
+		LocalDate parse2 = (LocalDate)DateTimeFormatter.ofPattern("yyyy-MM-dd").parse("2015-12-02");
+		LocalDate now = LocalDate.now();
+		
+		Period period = Period.between(parse2, now);
+		System.out.println(period.getYears());
 	}
 	
 	
@@ -142,44 +155,55 @@ public class LocalDateTimeTest {
 	
 	@Test
 	public void test3() {
-		Instant ins1 = Instant.now();
+//		Instant ins1 = Instant.now();
+//		
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//		}
+//		
+//		Instant ins2  = Instant.now();
+//		
+//		Duration duration = Duration.between(ins1, ins2);
+//		System.out.println(duration.getSeconds()); //相差秒
+//		System.out.println(duration.getNano());    //相差纳秒
+//		System.out.println(duration.toMillis());   //相差毫秒
+//		System.out.println(duration.toMinutes());  //相差分钟
+//		System.out.println(duration.toHours());    //相差小时
+//		
+//		
+//		System.out.println("---------------------");
+//		
+//		LocalTime lt1 = LocalTime.now();
+//		try {
+//			Thread.sleep(1000);
+//		} catch (InterruptedException e) {
+//		}
+//		LocalTime lt2 = LocalTime.now();
+//		
+//		System.out.println(Duration.between(lt1, lt2).toMillis());
+//		
+//		System.out.println("---------------------");
+//		
+//		//创建指定日期的对象
+//		LocalDate ld1 = LocalDate.of(2016, 3, 8); 
+//		LocalDate ld2 = LocalDate.now();
+//		
+//		Period period = Period.between(ld1, ld2);
+//		System.out.println(period.getYears());  //2个日期相差几年
+//		System.out.println(period.getMonths()); //2个日期之间去掉年份相差几个月(只比较分月)
+//		System.out.println(period.getDays());   //2个日期之间去掉年份和月份相差几天(只比较天)
 		
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-		}
+		System.out.println("--------------------------");
+		 LocalDate ld11 = LocalDate.from(DateTimeFormatter.ofPattern("yyyy-MM-dd").parse("1999-12-21"));
+         LocalDate ld21 = LocalDate.now();
+
+         Period period1 = Period.between(ld11, ld21);
+
+         System.out.println( String.valueOf(period1.getYears()));
 		
-		Instant ins2  = Instant.now();
-		
-		Duration duration = Duration.between(ins1, ins2);
-		System.out.println(duration.getSeconds()); //相差秒
-		System.out.println(duration.getNano());    //相差纳秒
-		System.out.println(duration.toMillis());   //相差毫秒
-		System.out.println(duration.toMinutes());  //相差分钟
-		System.out.println(duration.toHours());    //相差小时
-		
-		System.out.println("---------------------");
-		
-		LocalTime lt1 = LocalTime.now();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-		}
-		LocalTime lt2 = LocalTime.now();
-		
-		System.out.println(Duration.between(lt1, lt2).toMillis());
-		
-		System.out.println("---------------------");
-		
-		//创建指定日期的对象
-		LocalDate ld1 = LocalDate.of(2016, 3, 8); 
-		LocalDate ld2 = LocalDate.now();
-		
-		Period period = Period.between(ld1, ld2);
-		System.out.println(period.getYears());  //2个日期相差几年
-		System.out.println(period.getMonths()); //2个日期之间去掉年份相差几个月(只比较分月)
-		System.out.println(period.getDays());   //2个日期之间去掉年份和月份相差几天(只比较天)
-		
+         long years = ChronoUnit.YEARS.between(ld11, ld21);  
+         System.out.println(years);
  	}
 	
 	@Test
