@@ -18,8 +18,9 @@ public class RSACodeTest {
 	@Before
 	public void initKey() throws Exception{
 		Map<String, Object> keyMap = RSACoder.initKey();
-		publicKey = Base64.decodeBase64( PUBLIC_KEY);//RSACoder.getPublicKey(keyMap);
+		publicKey = Base64.decodeBase64(PUBLIC_KEY);//RSACoder.getPublicKey(keyMap);
 		privateKey = Base64.decodeBase64(PRIVATE_KEY);//RSACoder.getPrivateKey(keyMap);
+
 		System.out.println("公钥：\n" + Base64.encodeBase64String(publicKey));
 		System.out.println("私钥：\n" + Base64.encodeBase64String(privateKey));
 	}

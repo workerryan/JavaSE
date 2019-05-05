@@ -24,7 +24,12 @@
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>
 		    <version>4.12</version>
-		    <scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.7</version>
 		</dependency>
 		
 	</dependencies>
@@ -39,7 +44,13 @@
                     <source>${java-version}</source>  
                     <target>${java-version}</target>  
                 </configuration>  
-            </plugin>  
+            </plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
         </plugins>  
     </build>
 </project>

@@ -221,7 +221,7 @@ public class StreamApi1 {
 			if(e1.getAge() == e2.getAge()) {
 				return e1.getName().compareTo(e2.getName());
 			}else {
-				return e1.getAge() > e2.getAge() ? 1: (e1.getAge() == e2.getAge() ? 0 : -1);
+				return e1.getAge() > e2.getAge() ? -1: (e1.getAge() == e2.getAge() ? 0 : 1);
 			}
 		}).forEach(System.out::println);
 		
