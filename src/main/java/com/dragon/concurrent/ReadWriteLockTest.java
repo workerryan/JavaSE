@@ -19,7 +19,7 @@ public class ReadWriteLockTest {
 			public void run() {
 				rw.set( (int)(Math.random() * 100));
 			}
-		}, "Write: ").start();
+		}, "Write").start();
 		
 		for(int i = 0; i< 100 ; i++) {
 			new Thread(new Runnable() {
@@ -27,7 +27,7 @@ public class ReadWriteLockTest {
 				public void run() {
 					rw.get();
 				}
-			}, "Reader: ").start();
+			}, "Reader").start();
 		}
 	}
 
