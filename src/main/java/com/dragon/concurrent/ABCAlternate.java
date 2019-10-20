@@ -11,30 +11,21 @@ import java.util.concurrent.locks.ReentrantLock;
 public class ABCAlternate {
 	public static void main(String[] args) {
 		AlternateDemo ad = new AlternateDemo();
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				for (int i = 0; i <= 20; i++) {
-					ad.loopA(i);
-				}
+		new Thread(() -> {
+			for (int i = 0; i <= 20; i++) {
+				ad.loopA(i);
 			}
 		}, "A").start();
 		
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				for (int i = 0; i <= 20; i++) {
-					ad.loopB(i);
-				}
+		new Thread(() -> {
+			for (int i = 0; i <= 20; i++) {
+				ad.loopB(i);
 			}
 		}, "B").start();
 		
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				for (int i = 0; i <= 20; i++) {
-					ad.loopC(i);
-				}
+		new Thread(() -> {
+			for (int i = 0; i <= 20; i++) {
+				ad.loopC(i);
 			}
 		}, "C").start();
 	}

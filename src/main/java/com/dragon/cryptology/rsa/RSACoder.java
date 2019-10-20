@@ -22,6 +22,7 @@ import javax.crypto.Cipher;
  */
 public class RSACoder {
 	private static final String KEY_ALGORITHM = "RSA";      //非对称加密密钥算法
+	//private static final String KEY_ALGORITHM = "RSA/ECB/PKCS1Padding";
 	private static final String PUBLIC_KEY="RSAPublicKey";  //公钥
 	private static final String PRIVATE_KEY="RSAPrivateKey";//私钥
 	private static final int KEY_SIZE = 1024;                // 密钥长度
@@ -42,6 +43,7 @@ public class RSACoder {
 		PrivateKey privateKey = keyFactory.generatePrivate(pkcs8KeySpec);
 		//对数据解密
 		Cipher cipher = Cipher.getInstance(keyFactory.getAlgorithm());
+
 		cipher.init(Cipher.DECRYPT_MODE, privateKey);
 		
 		return cipher.doFinal(data);

@@ -30,7 +30,6 @@ public class ReadWriteLockTest {
 			}, "Reader").start();
 		}
 	}
-
 }
 
 class ReadWriteLockDemo{
