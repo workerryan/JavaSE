@@ -65,7 +65,7 @@ class ShareData2 {
 		String data = null;
 		while(FLAG) {
 			data = blockingQueue.poll(2L, TimeUnit.SECONDS);
-			if(null == data || data.equalsIgnoreCase("")) {
+			if("".equalsIgnoreCase(data)) {
 				FLAG = false;
 				System.out.println(Thread.currentThread().getName()+" 超过2秒没有取到数据，消费退出");
 				return;

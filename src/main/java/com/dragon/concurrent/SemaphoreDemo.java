@@ -20,7 +20,7 @@ public class SemaphoreDemo {
 				}finally {
 					semaphore.release(); //开车走了，释放车位
 				}
-			}, String.valueOf(i)).start();
+			}, i + "号车").start();
 		}
 	}
 }
